@@ -1,0 +1,15 @@
+apiVersion: enmasse.io/v1beta1
+kind: AddressSpace
+metadata:
+  name: star-wars
+spec:
+  type: standard
+  plan: standard-unlimited
+  authenticationService:
+    name: standard-authservice
+  endpoints:
+  - name: messaging
+    service: messaging
+    exports:
+    - kind: ConfigMap
+      name: star-wars-amq-config

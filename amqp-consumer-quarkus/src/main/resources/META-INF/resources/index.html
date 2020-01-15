@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sith Transaction Snooper</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bulma CSS Framework -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+
+    <!-- Custom styles -->
+    <style>
+      h3 {
+        text-align: center;
+      }
+
+      #first-tx-message {
+        text-align: center;
+      }
+
+      article p.image {
+        background: lightgray;
+        border-radius: 5em;
+      }
+      img {
+        padding: 0.75em;
+      }
+      small.timestamp {
+        color: rgb(125, 125, 125);
+      }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.2/handlebars.min.js"></script>
+  </head>
+  <body>
+    <!-- Primary content container -->
+    <div class="container">
+      <div class="section has-background-dark" style="min-height: 100vh;">
+        <div class="box">
+          <h3 class="title is-3">Rebel Scum Transaction Snooper</h3>
+          <div class="section" id="content">
+            <p id="first-tx-message">Waiting on first transaction...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Template used to render each incoming transaction -->
+    <script id="transaction-tpl" type="text/x-handlebars-template">
+      <article class="media">
+        <figure class="media-left">
+          <p class="image is-64x64">
+            <img src="/images/{{character}}.png">
+          </p>
+        </figure>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <strong>{{character}}</strong>
+              <br>
+              Spent {{amount}} Imperial Credits <small>({{dollars}} USD)</small>
+              <br>
+              <small class="timestamp">{{timestamp}}</small>
+            </p>
+          </div>
+        </div>
+      </article>
+    </script>
+
+    <!-- Script that captures incoming events from quarkus server and renders them -->
+    <script>
+      const tpl = $('#transaction-tpl').text()
+      const tplRenderFn = Handlebars.compile(tpl);
+      const source = new EventSource('/prices/stream');
+      source.onmessage = function (event) {
+        const data = JSON.parse(event.data)
+
+        // Convert the timestamp so it renders with local time
+        data.timestamp = new Date(data.timestamp).toLocaleString()
+        data.dollars = data.dollars.toFixed(2)
+
+        const renderedTpl = tplRenderFn(data)
+        $('#content').prepend(renderedTpl)
+        $('#first-tx-message').remove()
+
+        // Only display the 20 most recent items
+        const articles = $('article')
+        if (articles.length > 20) {
+          articles.slice(-1).remove()
+        }
+      };
+    </script>
+  </body>
+</html>

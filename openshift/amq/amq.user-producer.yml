@@ -1,0 +1,13 @@
+apiVersion: user.enmasse.io/v1beta1
+kind: MessagingUser
+metadata:
+  name: star-wars.kyloren
+spec:
+  username: kyloren
+  authentication:
+    # password is "rebelscum"
+    type: password
+    password: cmViZWxzY3VtCg==
+  authorization:
+    - addresses: ["rebel-transactions"]
+      operations: ["send"]

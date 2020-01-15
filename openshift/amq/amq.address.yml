@@ -1,0 +1,8 @@
+apiVersion: enmasse.io/v1beta1
+kind: Address
+metadata:
+  name: star-wars.rebel-transactions
+spec:
+  address: rebel-transactions
+  type: queue
+  plan: standard-small-queue

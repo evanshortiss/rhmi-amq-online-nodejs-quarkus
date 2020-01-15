@@ -1,0 +1,13 @@
+apiVersion: user.enmasse.io/v1beta1
+kind: MessagingUser
+metadata:
+  name: star-wars.rey
+spec:
+  username: rey
+  authentication:
+    # password is "rebelalliance"
+    type: password
+    password: cmViZWxhbGxpYW5jZQ==
+  authorization:
+    - addresses: ["rebel-transactions"]
+      operations: ["recv"]
