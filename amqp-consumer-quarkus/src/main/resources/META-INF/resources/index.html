@@ -4,8 +4,9 @@
     <title>Sith Transaction Snooper</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bulma CSS Framework -->
+    <!-- Bulma CSS Framework and Animate.css -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
     <!-- Custom styles -->
     <style>
@@ -48,7 +49,7 @@
 
     <!-- Template used to render each incoming transaction -->
     <script id="transaction-tpl" type="text/x-handlebars-template">
-      <article class="media">
+      <article class="media animated flash">
         <figure class="media-left">
           <p class="image is-64x64">
             <img src="/images/{{character}}.png">
