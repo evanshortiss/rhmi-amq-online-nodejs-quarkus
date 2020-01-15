@@ -24,3 +24,5 @@ echo -e "\nDeploying producer (nodejs) and consumer (quarkus)"
 oc apply -f openshift/project.yml
 oc start-build amq-nodejs-producer
 oc start-build amq-quarkus-consumer
+
+echo "Done! Note it can take 2 or more minutes for both services to become available."

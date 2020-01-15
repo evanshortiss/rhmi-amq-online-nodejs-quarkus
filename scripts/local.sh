@@ -15,7 +15,9 @@ docker rm $NAME_AMQ $NAME_NODEJS $NAME_QUARKUS > /dev/null 2>&1
 docker run -d -p 5672:5672 -e ARTEMIS_USERNAME=quarkus -e ARTEMIS_PASSWORD=quarkus --name amq vromero/activemq-artemis:2.9.0-alpine
 
 # Build the Quarkus native executable
+cd ./amqp-consumer-quarkus
 ./mvnw package -Pnative -Dquarkus.native.container-build=true
+cd ..
 
 # Package it as a container
 docker build -f ./amqp-consumer-quarkus/src/main/docker/Dockerfile.native -t $NAME_QUARKUS ./amqp-consumer-quarkus
