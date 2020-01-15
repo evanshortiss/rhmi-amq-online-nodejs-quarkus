@@ -343,7 +343,7 @@ items:
     resources:
       limits:
         cpu: "4"
-        memory: 4Gi
+        memory: 6Gi
     runPolicy: Serial
     source:
       contextDir: amqp-consumer-quarkus
