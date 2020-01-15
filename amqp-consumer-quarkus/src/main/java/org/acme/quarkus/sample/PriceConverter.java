@@ -5,6 +5,8 @@ import io.vertx.core.json.JsonObject;
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.eclipse.microprofile.reactive.messaging.Acknowledgment.Strategy;
+import org.eclipse.microprofile.reactive.messaging.Acknowledgment;
 import javax.enterprise.context.ApplicationScoped;
 
 /**
@@ -20,6 +22,7 @@ public class PriceConverter {
 
     @Incoming("rebel-transactions")
     @Outgoing("my-data-stream")
+    @Acknowledgment(Acknowledgment.Strategy.PRE_PROCESSING)
     @Broadcast
     public String process(String incomingTx) {
         System.out.println("Received transaction: " + incomingTx);
