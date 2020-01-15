@@ -5,7 +5,6 @@ metadata:
 spec:
   username: rey
   authentication:
-    # password is "rebelalliance"
     type: password
     password: cmViZWxhbGxpYW5jZQ==
   authorization:

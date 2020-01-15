@@ -1,0 +1,803 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2020-01-15T04:04:09Z
+    labels:
+      app: amq-nodejs-producer
+    name: amq-nodejs-producer
+    namespace: amq-starwars-quarkus-nodejs
+    resourceVersion: "185316"
+    selfLink: /api/v1/namespaces/amq-starwars-quarkus-nodejs/services/amq-nodejs-producer
+    uid: 15172d24-374c-11ea-b029-0a70673701c3
+  spec:
+    clusterIP: 172.30.61.194
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: amq-nodejs-producer
+      deploymentconfig: amq-nodejs-producer
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2020-01-15T04:04:07Z
+    labels:
+      app: amq-quarkus-consumer
+    name: amq-quarkus-consumer
+    namespace: amq-starwars-quarkus-nodejs
+    resourceVersion: "185292"
+    selfLink: /api/v1/namespaces/amq-starwars-quarkus-nodejs/services/amq-quarkus-consumer
+    uid: 139599e6-374c-11ea-b029-0a70673701c3
+  spec:
+    clusterIP: 172.30.85.87
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: amq-quarkus-consumer
+      deploymentconfig: amq-quarkus-consumer
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2020-01-15T04:04:09Z
+    generation: 9
+    labels:
+      app: amq-nodejs-producer
+    name: amq-nodejs-producer
+    namespace: amq-starwars-quarkus-nodejs
+    resourceVersion: "327821"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/deploymentconfigs/amq-nodejs-producer
+    uid: 1508bc49-374c-11ea-b029-0a70673701c3
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: amq-nodejs-producer
+      deploymentconfig: amq-nodejs-producer
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: amq-nodejs-producer
+          deploymentconfig: amq-nodejs-producer
+      spec:
+        containers:
+        - env:
+          - name: AMQP_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: service.host
+                name: star-wars-amq-config
+          - name: AMQP_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: service.port.amqp
+                name: star-wars-amq-config
+          - name: AMQP_USER
+            value: kyloren
+          - name: AMQP_PASS
+            value: rebelscum
+          - name: AMQP_QUEUE_NAME
+            value: rebel-transactions
+          image: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-nodejs-producer@sha256:3444b22e822fd90b354b5deb8314974fa1ed8df2a8d30c22230c4fa8d9274511
+          imagePullPolicy: Always
+          name: amq-nodejs-producer
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - amq-nodejs-producer
+        from:
+          kind: ImageStreamTag
+          name: amq-nodejs-producer:latest
+          namespace: amq-starwars-quarkus-nodejs
+        lastTriggeredImage: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-nodejs-producer@sha256:3444b22e822fd90b354b5deb8314974fa1ed8df2a8d30c22230c4fa8d9274511
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2020-01-15T19:44:57Z
+      lastUpdateTime: 2020-01-15T19:44:57Z
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2020-01-15T19:44:57Z
+      lastUpdateTime: 2020-01-15T19:45:00Z
+      message: replication controller "amq-nodejs-producer-8" successfully rolled
+        out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    details:
+      causes:
+      - type: Manual
+      message: manual change
+    latestVersion: 8
+    observedGeneration: 9
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2020-01-15T04:04:07Z
+    generation: 3
+    labels:
+      app: amq-quarkus-consumer
+    name: amq-quarkus-consumer
+    namespace: amq-starwars-quarkus-nodejs
+    resourceVersion: "328282"
+    selfLink: /apis/apps.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/deploymentconfigs/amq-quarkus-consumer
+    uid: 1386d9ed-374c-11ea-b029-0a70673701c3
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: amq-quarkus-consumer
+      deploymentconfig: amq-quarkus-consumer
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: amq-quarkus-consumer
+          deploymentconfig: amq-quarkus-consumer
+      spec:
+        containers:
+        - env:
+          - name: AMQP_USER
+            value: rey
+          - name: AMQP_PASS
+            value: rebelalliance
+          - name: AMQP_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: service.host
+                name: star-wars-amq-config
+          - name: AMQP_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: service.port.amqp
+                name: star-wars-amq-config
+          image: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-quarkus-consumer@sha256:e2036bc78ad836f506b77f5d2453302ef63caaf7ab394359bb4572dce3de942a
+          imagePullPolicy: Always
+          name: amq-quarkus-consumer
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - amq-quarkus-consumer
+        from:
+          kind: ImageStreamTag
+          name: amq-quarkus-consumer:latest
+          namespace: amq-starwars-quarkus-nodejs
+        lastTriggeredImage: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-quarkus-consumer@sha256:e2036bc78ad836f506b77f5d2453302ef63caaf7ab394359bb4572dce3de942a
+      type: ImageChange
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: 2020-01-15T15:36:32Z
+      lastUpdateTime: 2020-01-15T15:36:32Z
+      message: Deployment config has minimum availability.
+      status: "True"
+      type: Available
+    - lastTransitionTime: 2020-01-15T19:47:45Z
+      lastUpdateTime: 2020-01-15T19:47:47Z
+      message: replication controller "amq-quarkus-consumer-2" successfully rolled
+        out
+      reason: NewReplicationControllerAvailable
+      status: "True"
+      type: Progressing
+    details:
+      causes:
+      - type: ConfigChange
+      message: config change
+    latestVersion: 2
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+    unavailableReplicas: 0
+    updatedReplicas: 1
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2020-01-15T04:04:09Z
+    labels:
+      app: amq-nodejs-producer
+    name: amq-nodejs-producer
+    namespace: amq-starwars-quarkus-nodejs
+    resourceVersion: "185304"
+    selfLink: /apis/build.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/buildconfigs/amq-nodejs-producer
+    uid: 14f851f4-374c-11ea-b029-0a70673701c3
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: amq-nodejs-producer:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: amqp-producer-nodejs
+      git:
+        uri: https://github.com/evanshortiss/rhmi-amq-online-nodejs-quarkus
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: nodejs:10
+          namespace: openshift
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: R0HaKlZMnIAfulK9tF2p
+      type: GitHub
+    - generic:
+        secret: zsSfURtAVZEqtnGS-tFa
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: docker-registry.default.svc:5000/openshift/nodejs@sha256:74a3ef2964efc03dfc239da3f09691b720ce54ff4bb47588864adb222133f0fc
+      type: ImageChange
+  status:
+    lastVersion: 1
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2020-01-15T04:04:07Z
+    labels:
+      app: amq-quarkus-consumer
+    name: amq-quarkus-consumer
+    namespace: amq-starwars-quarkus-nodejs
+    resourceVersion: "288932"
+    selfLink: /apis/build.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/buildconfigs/amq-quarkus-consumer
+    uid: 13762fd5-374c-11ea-b029-0a70673701c3
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: amq-quarkus-consumer:latest
+    postCommit: {}
+    resources:
+      limits:
+        cpu: "4"
+        memory: 4Gi
+    runPolicy: Serial
+    source:
+      contextDir: amqp-consumer-quarkus
+      git:
+        uri: https://github.com/evanshortiss/rhmi-amq-online-nodejs-quarkus
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: ubi-quarkus-native-s2i:19.2.1
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: YWFaqklipEI8a9nRnzBu
+      type: GitHub
+    - generic:
+        secret: xxaIOREOsEquxf1xNEap
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: quay.io/quarkus/ubi-quarkus-native-s2i@sha256:45acb6a175cc4215d8a1e84b2e2dd9d0e1ba6af3602876493bdfa2fee53c87cd
+      type: ImageChange
+  status:
+    lastVersion: 2
+- apiVersion: build.openshift.io/v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: amq-nodejs-producer
+      openshift.io/build.number: "1"
+      openshift.io/build.pod-name: amq-nodejs-producer-1-build
+    creationTimestamp: 2020-01-15T04:04:09Z
+    labels:
+      app: amq-nodejs-producer
+      buildconfig: amq-nodejs-producer
+      openshift.io/build-config.name: amq-nodejs-producer
+      openshift.io/build.start-policy: Serial
+    name: amq-nodejs-producer-1
+    namespace: amq-starwars-quarkus-nodejs
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: BuildConfig
+      name: amq-nodejs-producer
+      uid: 14f851f4-374c-11ea-b029-0a70673701c3
+    resourceVersion: "185538"
+    selfLink: /apis/build.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/builds/amq-nodejs-producer-1
+    uid: 14facd01-374c-11ea-b029-0a70673701c3
+  spec:
+    nodeSelector: null
+    output:
+      pushSecret:
+        name: builder-dockercfg-kxjrc
+      to:
+        kind: ImageStreamTag
+        name: amq-nodejs-producer:latest
+    postCommit: {}
+    resources: {}
+    revision:
+      git:
+        author:
+          email: evanshortiss@gmail.com
+          name: Evan Shortiss
+        commit: 9f0154f610b31491f5fbaeb339a770301c53ba54
+        committer:
+          email: evanshortiss@gmail.com
+          name: Evan Shortiss
+        message: initial commit
+      type: Git
+    serviceAccount: builder
+    source:
+      contextDir: amqp-producer-nodejs
+      git:
+        uri: https://github.com/evanshortiss/rhmi-amq-online-nodejs-quarkus
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: DockerImage
+          name: docker-registry.default.svc:5000/openshift/nodejs@sha256:74a3ef2964efc03dfc239da3f09691b720ce54ff4bb47588864adb222133f0fc
+        pullSecret:
+          name: builder-dockercfg-kxjrc
+      type: Source
+    triggeredBy:
+    - imageChangeBuild:
+        fromRef:
+          kind: ImageStreamTag
+          name: nodejs:10
+          namespace: openshift
+        imageID: docker-registry.default.svc:5000/openshift/nodejs@sha256:74a3ef2964efc03dfc239da3f09691b720ce54ff4bb47588864adb222133f0fc
+      message: Image change
+  status:
+    completionTimestamp: 2020-01-15T04:05:03Z
+    config:
+      kind: BuildConfig
+      name: amq-nodejs-producer
+      namespace: amq-starwars-quarkus-nodejs
+    duration: 54000000000
+    output:
+      to:
+        imageDigest: sha256:3444b22e822fd90b354b5deb8314974fa1ed8df2a8d30c22230c4fa8d9274511
+    outputDockerImageReference: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-nodejs-producer:latest
+    phase: Complete
+    stages:
+    - durationMilliseconds: 383
+      name: FetchInputs
+      startTime: 2020-01-15T04:04:13Z
+      steps:
+      - durationMilliseconds: 383
+        name: FetchGitSource
+        startTime: 2020-01-15T04:04:13Z
+    - durationMilliseconds: 345
+      name: CommitContainer
+      startTime: 2020-01-15T04:04:37Z
+      steps:
+      - durationMilliseconds: 345
+        name: CommitContainer
+        startTime: 2020-01-15T04:04:37Z
+    - durationMilliseconds: 16862
+      name: Assemble
+      startTime: 2020-01-15T04:04:20Z
+      steps:
+      - durationMilliseconds: 16862
+        name: AssembleBuildScripts
+        startTime: 2020-01-15T04:04:20Z
+    - durationMilliseconds: 25339
+      name: PushImage
+      startTime: 2020-01-15T04:04:37Z
+      steps:
+      - durationMilliseconds: 25339
+        name: PushImage
+        startTime: 2020-01-15T04:04:37Z
+    startTimestamp: 2020-01-15T04:04:09Z
+- apiVersion: build.openshift.io/v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: amq-quarkus-consumer
+      openshift.io/build.number: "1"
+      openshift.io/build.pod-name: amq-quarkus-consumer-1-build
+    creationTimestamp: 2020-01-15T04:04:07Z
+    labels:
+      app: amq-quarkus-consumer
+      buildconfig: amq-quarkus-consumer
+      openshift.io/build-config.name: amq-quarkus-consumer
+      openshift.io/build.start-policy: Serial
+    name: amq-quarkus-consumer-1
+    namespace: amq-starwars-quarkus-nodejs
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: BuildConfig
+      name: amq-quarkus-consumer
+      uid: 13762fd5-374c-11ea-b029-0a70673701c3
+    resourceVersion: "186347"
+    selfLink: /apis/build.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/builds/amq-quarkus-consumer-1
+    uid: 13796e7b-374c-11ea-b029-0a70673701c3
+  spec:
+    nodeSelector: null
+    output:
+      pushSecret:
+        name: builder-dockercfg-kxjrc
+      to:
+        kind: ImageStreamTag
+        name: amq-quarkus-consumer:latest
+    postCommit: {}
+    resources: {}
+    revision:
+      git:
+        author:
+          email: evanshortiss@gmail.com
+          name: Evan Shortiss
+        commit: 9f0154f610b31491f5fbaeb339a770301c53ba54
+        committer:
+          email: evanshortiss@gmail.com
+          name: Evan Shortiss
+        message: initial commit
+      type: Git
+    serviceAccount: builder
+    source:
+      contextDir: amqp-consumer-quarkus
+      git:
+        uri: https://github.com/evanshortiss/rhmi-amq-online-nodejs-quarkus
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: DockerImage
+          name: quay.io/quarkus/ubi-quarkus-native-s2i@sha256:45acb6a175cc4215d8a1e84b2e2dd9d0e1ba6af3602876493bdfa2fee53c87cd
+      type: Source
+    triggeredBy:
+    - imageChangeBuild:
+        fromRef:
+          kind: ImageStreamTag
+          name: ubi-quarkus-native-s2i:19.2.1
+        imageID: quay.io/quarkus/ubi-quarkus-native-s2i@sha256:45acb6a175cc4215d8a1e84b2e2dd9d0e1ba6af3602876493bdfa2fee53c87cd
+      message: Image change
+  status:
+    completionTimestamp: 2020-01-15T04:09:41Z
+    config:
+      kind: BuildConfig
+      name: amq-quarkus-consumer
+      namespace: amq-starwars-quarkus-nodejs
+    duration: 334000000000
+    logSnippet: |-
+      [INFO] [io.quarkus.deployment.pkg.steps.NativeImageBuildSt...rFeature -H:+StackTrace amqp-quickstart-1.0-SNAPSHOT-runner
+      [amqp-quickstart-1.0-SNAPSHOT-runner:208]    classlist:  47,013.78 ms
+      [amqp-quickstart-1.0-SNAPSHOT-runner:208]        (cap):   7,420.20 ms
+      [amqp-quickstart-1.0-SNAPSHOT-runner:208]        setup:  23,601.26 ms
+      04:07:08,781 INFO  [org.jbo.threads] JBoss Threads version 3.0.0.Final
+    message: The build pod was killed due to an out of memory condition.
+    output: {}
+    outputDockerImageReference: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-quarkus-consumer:latest
+    phase: Failed
+    reason: OutOfMemoryKilled
+    stages:
+    - durationMilliseconds: 450
+      name: FetchInputs
+      startTime: 2020-01-15T04:04:10Z
+      steps:
+      - durationMilliseconds: 450
+        name: FetchGitSource
+        startTime: 2020-01-15T04:04:10Z
+    startTimestamp: 2020-01-15T04:04:07Z
+- apiVersion: build.openshift.io/v1
+  kind: Build
+  metadata:
+    annotations:
+      openshift.io/build-config.name: amq-quarkus-consumer
+      openshift.io/build.number: "2"
+      openshift.io/build.pod-name: amq-quarkus-consumer-2-build
+    creationTimestamp: 2020-01-15T15:31:52Z
+    labels:
+      app: amq-quarkus-consumer
+      buildconfig: amq-quarkus-consumer
+      openshift.io/build-config.name: amq-quarkus-consumer
+      openshift.io/build.start-policy: Serial
+    name: amq-quarkus-consumer-2
+    namespace: amq-starwars-quarkus-nodejs
+    ownerReferences:
+    - apiVersion: build.openshift.io/v1
+      controller: true
+      kind: BuildConfig
+      name: amq-quarkus-consumer
+      uid: 13762fd5-374c-11ea-b029-0a70673701c3
+    resourceVersion: "289661"
+    selfLink: /apis/build.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/builds/amq-quarkus-consumer-2
+    uid: 2737b800-37ac-11ea-b029-0a70673701c3
+  spec:
+    nodeSelector: null
+    output:
+      pushSecret:
+        name: builder-dockercfg-kxjrc
+      to:
+        kind: ImageStreamTag
+        name: amq-quarkus-consumer:latest
+    postCommit: {}
+    resources:
+      limits:
+        cpu: "4"
+        memory: 4Gi
+    revision:
+      git:
+        author:
+          email: evanshortiss@gmail.com
+          name: Evan Shortiss
+        commit: 9f0154f610b31491f5fbaeb339a770301c53ba54
+        committer:
+          email: evanshortiss@gmail.com
+          name: Evan Shortiss
+        message: initial commit
+      type: Git
+    serviceAccount: builder
+    source:
+      contextDir: amqp-consumer-quarkus
+      git:
+        uri: https://github.com/evanshortiss/rhmi-amq-online-nodejs-quarkus
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: DockerImage
+          name: quay.io/quarkus/ubi-quarkus-native-s2i@sha256:45acb6a175cc4215d8a1e84b2e2dd9d0e1ba6af3602876493bdfa2fee53c87cd
+      type: Source
+    triggeredBy:
+    - message: Manually triggered
+  status:
+    completionTimestamp: 2020-01-15T15:36:21Z
+    config:
+      kind: BuildConfig
+      name: amq-quarkus-consumer
+      namespace: amq-starwars-quarkus-nodejs
+    duration: 269000000000
+    output:
+      to:
+        imageDigest: sha256:e2036bc78ad836f506b77f5d2453302ef63caaf7ab394359bb4572dce3de942a
+    outputDockerImageReference: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-quarkus-consumer:latest
+    phase: Complete
+    stages:
+    - durationMilliseconds: 386
+      name: FetchInputs
+      startTime: 2020-01-15T15:31:55Z
+      steps:
+      - durationMilliseconds: 386
+        name: FetchGitSource
+        startTime: 2020-01-15T15:31:55Z
+    - durationMilliseconds: 3178
+      name: CommitContainer
+      startTime: 2020-01-15T15:35:08Z
+      steps:
+      - durationMilliseconds: 3178
+        name: CommitContainer
+        startTime: 2020-01-15T15:35:08Z
+    - durationMilliseconds: 167732
+      name: Assemble
+      startTime: 2020-01-15T15:32:24Z
+      steps:
+      - durationMilliseconds: 167732
+        name: AssembleBuildScripts
+        startTime: 2020-01-15T15:32:24Z
+    - durationMilliseconds: 68907
+      name: PushImage
+      startTime: 2020-01-15T15:35:11Z
+      steps:
+      - durationMilliseconds: 68907
+        name: PushImage
+        startTime: 2020-01-15T15:35:11Z
+    startTimestamp: 2020-01-15T15:31:52Z
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2020-01-15T04:04:09Z
+    generation: 1
+    labels:
+      app: amq-nodejs-producer
+    name: amq-nodejs-producer
+    namespace: amq-starwars-quarkus-nodejs
+    resourceVersion: "185519"
+    selfLink: /apis/image.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/imagestreams/amq-nodejs-producer
+    uid: 14e8f16d-374c-11ea-b029-0a70673701c3
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-nodejs-producer
+    tags:
+    - items:
+      - created: 2020-01-15T04:05:03Z
+        dockerImageReference: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-nodejs-producer@sha256:3444b22e822fd90b354b5deb8314974fa1ed8df2a8d30c22230c4fa8d9274511
+        generation: 1
+        image: sha256:3444b22e822fd90b354b5deb8314974fa1ed8df2a8d30c22230c4fa8d9274511
+      tag: latest
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: 2020-01-15T04:04:07Z
+    generation: 1
+    labels:
+      app: amq-quarkus-consumer
+    name: amq-quarkus-consumer
+    namespace: amq-starwars-quarkus-nodejs
+    resourceVersion: "289642"
+    selfLink: /apis/image.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/imagestreams/amq-quarkus-consumer
+    uid: 1365ec8f-374c-11ea-b029-0a70673701c3
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-quarkus-consumer
+    tags:
+    - items:
+      - created: 2020-01-15T15:36:20Z
+        dockerImageReference: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-quarkus-consumer@sha256:e2036bc78ad836f506b77f5d2453302ef63caaf7ab394359bb4572dce3de942a
+        generation: 1
+        image: sha256:e2036bc78ad836f506b77f5d2453302ef63caaf7ab394359bb4572dce3de942a
+      tag: latest
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/image.dockerRepositoryCheck: 2020-01-15T04:04:07Z
+    creationTimestamp: 2020-01-15T04:04:06Z
+    generation: 2
+    labels:
+      app: amq-quarkus-consumer
+    name: ubi-quarkus-native-s2i
+    namespace: amq-starwars-quarkus-nodejs
+    resourceVersion: "185279"
+    selfLink: /apis/image.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/imagestreams/ubi-quarkus-native-s2i
+    uid: 1356e302-374c-11ea-b029-0a70673701c3
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: quay.io/quarkus/ubi-quarkus-native-s2i:19.2.1
+      from:
+        kind: DockerImage
+        name: quay.io/quarkus/ubi-quarkus-native-s2i:19.2.1
+      generation: 2
+      importPolicy: {}
+      name: 19.2.1
+      referencePolicy:
+        type: Source
+  status:
+    dockerImageRepository: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/ubi-quarkus-native-s2i
+    tags:
+    - items:
+      - created: 2020-01-15T04:04:07Z
+        dockerImageReference: quay.io/quarkus/ubi-quarkus-native-s2i@sha256:45acb6a175cc4215d8a1e84b2e2dd9d0e1ba6af3602876493bdfa2fee53c87cd
+        generation: 2
+        image: sha256:45acb6a175cc4215d8a1e84b2e2dd9d0e1ba6af3602876493bdfa2fee53c87cd
+      tag: 19.2.1
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    creationTimestamp: 2020-01-15T19:48:24Z
+    labels:
+      app: amq-quarkus-consumer
+    name: sith-sniffer
+    namespace: amq-starwars-quarkus-nodejs
+    resourceVersion: "328384"
+    selfLink: /apis/route.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/routes/sith-sniffer
+    uid: fd968dec-37cf-11ea-b029-0a70673701c3
+  spec:
+    host: sith-sniffer-amq-starwars-quarkus-nodejs.apps.eshortis-d774.open.redhat.com
+    port:
+      targetPort: 8080-tcp
+    tls:
+      termination: edge
+    to:
+      kind: Service
+      name: amq-quarkus-consumer
+      weight: 100
+    wildcardPolicy: None
+  status:
+    ingress:
+    - conditions:
+      - lastTransitionTime: 2020-01-15T19:48:24Z
+        status: "True"
+        type: Admitted
+      host: sith-sniffer-amq-starwars-quarkus-nodejs.apps.eshortis-d774.open.redhat.com
+      routerName: router
+      wildcardPolicy: None
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

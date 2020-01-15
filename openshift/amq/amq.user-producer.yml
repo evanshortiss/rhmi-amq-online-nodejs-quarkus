@@ -5,9 +5,8 @@ metadata:
 spec:
   username: kyloren
   authentication:
-    # password is "rebelscum"
     type: password
-    password: cmViZWxzY3VtCg==
+    password: cmViZWxzY3Vt
   authorization:
     - addresses: ["rebel-transactions"]
       operations: ["send"]

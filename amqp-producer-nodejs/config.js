@@ -9,11 +9,11 @@ const config = {
   PORT: env.get('PORT', '8080').asPortNumber(),
   AMQP: {
     DISABLED: AMQP_DISABLED,
-    USER: env.get('AMQP_USER', 'quarkus').required(!AMQP_DISABLED).asString(),
-    PASS: env.get('AMQP_PASS', 'quarkus').required(!AMQP_DISABLED).asString(),
-    HOST: env.get('AMQP_HOST', '0.0.0.0').required(!AMQP_DISABLED).asString(),
-    PORT: env.get('AMQP_PORT', '5672').required(!AMQP_DISABLED).asPortNumber(),
-    QUEUE_NAME: env.get('AMQP_QUEUE_NAME', 'rebel-transactions').required(!AMQP_DISABLED).asString()
+    USER: env.get('AMQP_USER', 'quarkus').asString(),
+    PASS: env.get('AMQP_PASS', 'quarkus').asString(),
+    HOST: env.get('AMQP_HOST', 'amq').asString(),
+    PORT: env.get('AMQP_PORT', '5672').asPortNumber(),
+    QUEUE_NAME: env.get('AMQP_QUEUE_NAME', 'rebel-transactions').asString()
   }
 }
 

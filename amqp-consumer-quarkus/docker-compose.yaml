@@ -3,7 +3,6 @@
 version: '2'
 
 services:
-
   artemis:
     image: vromero/activemq-artemis:2.9.0-alpine
     ports:

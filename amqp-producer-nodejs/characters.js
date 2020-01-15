@@ -5,10 +5,10 @@ module.exports = [
   'Lando',
   'Ewok',
   'Yoda',
-  'Luke Skywalker',
-  'Han Solo',
+  'Luke',
+  'Solo',
   'Chewbacca',
-  'Princess Leia',
+  'Leia',
   'Obi-Wan',
   'R2-D2'
 ]
