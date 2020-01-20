@@ -2,10 +2,8 @@ package org.acme.quarkus.sample;
 
 import io.smallrye.reactive.messaging.annotations.Broadcast;
 import io.vertx.core.json.JsonObject;
-
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
-import org.eclipse.microprofile.reactive.messaging.Acknowledgment.Strategy;
 import org.eclipse.microprofile.reactive.messaging.Acknowledgment;
 import javax.enterprise.context.ApplicationScoped;
 

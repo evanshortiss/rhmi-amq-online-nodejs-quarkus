@@ -1,5 +1,6 @@
 package org.acme.quarkus.sample;
 
+import io.quarkus.security.Authenticated;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import org.reactivestreams.Publisher;
 import javax.inject.Inject;
@@ -9,9 +10,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- * A simple resource retrieving the "in-memory" "my-data-stream" and sending the items to a server sent event.
+ * A simple resource retrieving the in-memory "my-data-stream" and sending the items to a server sent event.
  */
 @Path("/prices")
+@Authenticated
 public class RebelTransactionResource {
 
     @Inject
