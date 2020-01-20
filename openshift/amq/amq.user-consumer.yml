@@ -9,4 +9,4 @@ spec:
     password: cmViZWxhbGxpYW5jZQ==
   authorization:
     - addresses: ["rebel-transactions"]
-      operations: ["recv"]
+      operations: ["send"]

@@ -106,9 +106,9 @@ items:
                 key: service.port.amqp
                 name: star-wars-amq-config
           - name: AMQP_USER
-            value: kyloren
+            value: rey
           - name: AMQP_PASS
-            value: rebelscum
+            value: rebelalliance
           - name: AMQP_QUEUE_NAME
             value: rebel-transactions
           image: docker-registry.default.svc:5000/amq-starwars-quarkus-nodejs/amq-nodejs-producer@sha256:3444b22e822fd90b354b5deb8314974fa1ed8df2a8d30c22230c4fa8d9274511
@@ -205,9 +205,9 @@ items:
         containers:
         - env:
           - name: AMQP_USER
-            value: rey
+            value: kyloren
           - name: AMQP_PASS
-            value: rebelalliance
+            value: rebelscum
           - name: AMQP_HOST
             valueFrom:
               configMapKeyRef:
