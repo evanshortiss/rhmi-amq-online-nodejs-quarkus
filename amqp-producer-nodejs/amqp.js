@@ -41,7 +41,7 @@ exports.connect = function (log) {
             to: AMQP.QUEUE_NAME,
             id,
             body: JSON.stringify({
-              amount: getRandomInt(1, 1000),
+              amount: getRandomInt(1, 1500),
               character: characters[getRandomInt(0, characters.length - 1)],
               timestamp: new Date().toJSON()
             })
