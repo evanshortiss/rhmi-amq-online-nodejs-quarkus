@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="has-background-dark">
   <head>
     <title>Sith Transaction Snooper</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,6 +30,11 @@
       small.timestamp {
         color: rgb(125, 125, 125);
       }
+      .navbar-item img {
+        height: 1.5rem;
+        width: 1.5rem;
+        padding: 0;
+      }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
@@ -37,12 +42,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.2/handlebars.min.js"></script>
   </head>
   <body class="has-background-dark">
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img src="images/sith-logo.png">
+        </a>
+        <p style="margin: auto 0;">Galatic Empire Transaction Tracker</p>
+      </div>
+    </nav>
+
     <!-- Primary content container -->
     <div class="container">
-      <div class="section" style="min-height: 100vh;">
-        <div class="box">
-          <h3 class="title is-3">Rebel Scum Transaction Snooper</h3>
-          <div class="section" id="content">
+      <div class="section">
+        <div class="box" style="margin: 1.25rem auto !important; max-height: 75vh; overflow: scroll;">
+          <div class="section" style="padding: 2rem 1.5rem;" id="content">
             <p id="first-tx-message">Waiting on first transaction...</p>
           </div>
         </div>
