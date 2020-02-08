@@ -778,7 +778,6 @@ items:
     selfLink: /apis/route.openshift.io/v1/namespaces/amq-starwars-quarkus-nodejs/routes/sith-sniffer
     uid: fd968dec-37cf-11ea-b029-0a70673701c3
   spec:
-    host: sith-sniffer-amq-starwars-quarkus-nodejs.apps.eshortis-d774.open.redhat.com
     port:
       targetPort: 8080-tcp
     tls:
